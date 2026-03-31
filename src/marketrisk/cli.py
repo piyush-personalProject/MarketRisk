@@ -1,6 +1,15 @@
 """Command-line interface for Options Greeks Calculator."""
 
-from .calculator import OptionsGreeksCalculator
+import sys
+from pathlib import Path
+
+# Handle both relative imports (module) and direct script execution
+try:
+    from .calculator import OptionsGreeksCalculator
+except ImportError:
+    # Add parent directory to path for direct script execution
+    sys.path.insert(0, str(Path(__file__).parent))
+    from calculator import OptionsGreeksCalculator
 
 
 def main() -> None:
