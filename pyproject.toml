@@ -55,8 +55,8 @@ marketrisk = "marketrisk.cli:main"
 [project.urls]
 Homepage = "https://github.com/piyush-personalProject/market_risk"
 Documentation = "https://github.com/piyush-personalProject/market_risk#readme"
-Repository = "https://github.com/yourusername/marketrisk"
-Issues = "https://github.com/yourusername/marketrisk/issues"
+Repository = "https://github.com/piyush-personalProject/marketrisk"
+Issues = "https://github.com/piyush-personalProject/marketrisk/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
