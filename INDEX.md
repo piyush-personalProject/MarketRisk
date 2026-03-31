@@ -6,7 +6,6 @@
 - **New to the project?** → Start with `QUICKSTART.md`
 - **Setting up first time?** → Read `docs/INSTALL.md`
 - **Want examples?** → See `docs/USAGE.md`
-- **Migrating from old code?** → Check `MIGRATION.md`
 
 ### 📚 Documentation Files
 
@@ -16,9 +15,6 @@
 | **README.md** | Project overview & API | 10 min |
 | **docs/INSTALL.md** | Setup instructions | 10 min |
 | **docs/USAGE.md** | Usage examples & guide | 15 min |
-| **MIGRATION.md** | Old→New structure migration | 10 min |
-| **RESTRUCTURING.md** | What was changed | 15 min |
-| **RESTRUCTURING_COMPLETE.md** | Restructuring summary | 5 min |
 | **PROJECT_STRUCTURE.md** | Directory explanation | 10 min |
 | **CHANGELOG.md** | Version history | 2 min |
 
@@ -85,9 +81,6 @@ Root Directory/
 ├── README.md                  Main project documentation
 ├── CHANGELOG.md               Version history
 ├── QUICKSTART.md              Quick reference
-├── MIGRATION.md               Migration guide
-├── RESTRUCTURING.md           Restructuring details
-├── RESTRUCTURING_COMPLETE.md  Summary
 ├── PROJECT_STRUCTURE.md       Structure explanation
 └── INDEX.md                   This file
 ```
@@ -152,16 +145,9 @@ mypy src/
 ```
 → Configured in `pyproject.toml`
 
-#### Migrate Old Code
-Update imports from:
-```python
-from OptionsGreeksCalculator import OptionsGreeksCalculator
-```
-To:
 ```python
 from marketrisk.calculator import OptionsGreeksCalculator
 ```
-→ See `MIGRATION.md` for details
 
 #### Publish to PyPI
 ```bash
@@ -174,8 +160,6 @@ python -m twine upload dist/*
 #### Understand the Structure
 → See `PROJECT_STRUCTURE.md`
 
-#### See What Changed
-→ See `RESTRUCTURING.md`
 
 ---
 
