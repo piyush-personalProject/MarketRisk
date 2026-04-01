@@ -1,4 +1,8 @@
-"""Options Greeks Calculator using Black-Scholes model."""
+"""Equity Options Greeks Calculator using Black-Scholes model.
+
+This calculator is specific to EQUITY OPTIONS pricing using the Black-Scholes model.
+For futures options, use FuturesOptionsCalculator with Black76 model.
+"""
 
 import numpy as np
 import yfinance as yf
@@ -7,8 +11,14 @@ from scipy.stats import norm
 from datetime import datetime, timedelta, timezone
 
 
-class OptionsGreeksCalculator:
-    """Calculate Greeks and plot option values over time using Black-Scholes model."""
+class EquityOptionsCalculator:
+    """Calculate Greeks for equity options using Black-Scholes model.
+
+    This class is designed specifically for pricing equity and stock options.
+    It handles dividend yields and uses real-time stock data from Yahoo Finance.
+
+    For futures options, use FuturesOptionsCalculator with Black76 model instead.
+    """
 
     def __init__(
         self,

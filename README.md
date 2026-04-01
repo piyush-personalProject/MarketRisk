@@ -1,16 +1,32 @@
 # MarketRisk - Options Greeks Calculator
 
-A professional-grade Python library for calculating options Greeks (Delta, Gamma, Vega, Theta) using the Black-Scholes model. Fetches real-time stock data and visualizes option values over time.
+A professional-grade Python library for calculating options Greeks (Delta, Gamma, Vega, Theta) using industry-standard models:
+- **Black-Scholes Model** for equity and stock options
+- **Black76 Model** for futures and forward contracts
+
+Features real-time stock data, comprehensive Greeks calculation, and professional visualization.
 
 ## Features
 
-- **Black-Scholes Pricing**: Accurate option pricing using the Black-Scholes model
-- **Greeks Calculation**: Compute Delta, Gamma, Vega, and Theta for both call and put options
-- **Real-Time Data**: Fetch current stock prices from Yahoo Finance
+### Equity Options (Black-Scholes)
+- ✅ **Black-Scholes Pricing**: Accurate pricing for stocks and equities
+- ✅ **Dividend Support**: Handles continuous dividend yields
+- ✅ **Real-Time Data**: Fetches current stock prices from Yahoo Finance
+- ✅ **All Greeks**: Delta, Gamma, Vega, Theta calculations
+
+### Futures Options (Black76)
+- ✅ **Black76 Pricing**: Industry-standard model for futures
+- ✅ **Multiple Assets**: Commodity, Interest Rate, Currency, Index futures
+- ✅ **Direct Price Input**: No need for real-time data fetch
+- ✅ **All Greeks**: Properly discounted for futures
+
+### General Features
 - **Visualization**: Generate professional plots of option values over time
 - **Easy to Use**: Simple API with sensible defaults
-- **Well Tested**: Comprehensive unit test suite with good coverage
+- **Dual CLI**: Menu-driven command-line interface for both models
+- **Well Tested**: 45+ unit tests with comprehensive coverage
 - **Type Hints**: Full type hints for IDE support
+- **Production Ready**: Industry-standard implementations
 
 ## Installation
 
@@ -42,103 +58,119 @@ A professional-grade Python library for calculating options Greeks (Delta, Gamma
    pip install -r requirements.txt
    ```
 
-4. **Verify installation**
+4. **Install as package** (recommended)
    ```bash
-   python -m pytest tests/ -v
+   pip install -e .
    ```
 
-## Usage
+5. **Verify installation**
+   ```bash
+   python -m unittest discover -s tests -p "test_*.py" -v
+   ```
 
-### As a Library
+## Quick Start
+
+### Equity Options - Using Real Stock Data
 
 ```python
-from marketrisk.calculator import OptionsGreeksCalculator
+from marketrisk import EquityOptionsCalculator
 
-# Create a calculator instance
-calc = OptionsGreeksCalculator(
+# Apple call option with dividend
+calc = EquityOptionsCalculator(
     ticker_symbol='AAPL',
     strike_price=150,
     expiry_date='2026-06-19',
     volatility=0.25,
-    risk_free_rate=0.045,
+    dividend_yield=0.005,  # 0.5% dividend
     option_type='call'
 )
 
-# Calculate Greeks
+# Calculate and display Greeks
 greeks = calc.calculate_greeks()
-print(greeks)
-
-# Display formatted output
 calc.display_greeks()
-
-# Generate plot
-calc.plot_option_values(days=10, num_points=50)
+calc.plot_option_values(days=30)
 ```
 
-### As a Command-Line Tool
+### Futures Options - Direct Price Input
+
+```python
+from marketrisk import FuturesOptionsCalculator
+
+# Crude oil futures call option
+calc = FuturesOptionsCalculator(
+    futures_price=75.50,
+    strike_price=75.0,
+    expiry_date='2026-06-19',
+    volatility=0.35,  # Typical commodity volatility
+    option_type='call'
+)
+
+greeks = calc.calculate_greeks()
+calc.display_greeks()
+calc.plot_option_values(days=30)
+```
+
+### Command-Line Interface
 
 ```bash
-# Run interactive calculator
+# Interactive menu
 python -m marketrisk.cli
-
-# Or if installed as a package:
+# or
 marketrisk
-```
 
-When prompted, enter:
-- **Ticker Symbol**: Stock ticker (e.g., AAPL, MSFT, GOOGL)
-- **Strike Price**: Strike price of the option
-- **Expiry Date**: Option expiration date (YYYY-MM-DD format)
-- **Volatility**: Implied volatility as a decimal (default: 0.25 = 25%)
-- **Risk-Free Rate**: Risk-free rate as a decimal (default: 0.045 = 4.5%)
-- **Option Type**: 'call' or 'put'
+# Menu:
+# 1. Equity/Stock Options (Black-Scholes)
+# 2. Futures Options (Black76)
+# 0. Exit
+```
 
 ## API Reference
 
-### OptionsGreeksCalculator
+### EquityOptionsCalculator (Black-Scholes)
+
+For pricing equity and stock options with real-time data.
 
 #### Constructor
 
 ```python
-OptionsGreeksCalculator(
+from marketrisk import EquityOptionsCalculator
+
+EquityOptionsCalculator(
     ticker_symbol: str,
     strike_price: float,
     expiry_date: str,
     risk_free_rate: float = 0.045,
     volatility: float = 0.25,
-    option_type: str = 'call'
+    option_type: str = 'call',
+    dividend_yield: float = 0.0
 )
 ```
 
 **Parameters:**
-- `ticker_symbol`: Stock ticker symbol (e.g., 'AAPL')
+- `ticker_symbol`: Stock ticker symbol (e.g., 'AAPL', 'IBM')
 - `strike_price`: Strike price of the option
 - `expiry_date`: Expiration date in 'YYYY-MM-DD' format
-- `risk_free_rate`: Annual risk-free rate (default: 0.045)
-- `volatility`: Implied volatility (default: 0.25)
+- `risk_free_rate`: Annual risk-free rate (default: 0.045 = 4.5%)
+- `volatility`: Implied volatility (default: 0.25 = 25%)
 - `option_type`: 'call' or 'put' (default: 'call')
+- `dividend_yield`: Continuous dividend yield (default: 0.0 = no dividend)
 
 #### Methods
 
-##### calculate_greeks(spot_price=None, time_to_expiry=None)
+##### calculate_greeks(spot_price=None, time_to_expiry=None, dividend_yield=None)
 
-Calculate option price and Greeks.
+Calculate option price and Greeks using Black-Scholes model.
 
-**Returns:** Dictionary with keys:
+**Returns:** Dictionary with:
 - `Spot`: Current spot price
 - `T_Years`: Time to expiry in years
 - `Price`: Option price
-- `Delta`: Delta value
-- `Gamma`: Gamma value
+- `Delta`: Delta value (-1 to 1)
+- `Gamma`: Gamma value (curvature)
 - `Vega (1%)`: Vega for 1% volatility change
 - `Theta`: Theta value (daily time decay)
-- `Status`: 'Expired' if expired, otherwise not present
-
-##### calculate_time_to_expiry(date_str=None)
-
-Calculate time to expiration in years.
-
-**Returns:** float (years to expiry, minimum 0)
+- `Dividend Yield`: Applied dividend yield
+- `Status`: 'Expired' if expired
 
 ##### display_greeks()
 
@@ -148,11 +180,81 @@ Print formatted Greeks to console.
 
 Generate and save a plot of option values over time.
 
-**Parameters:**
-- `days`: Number of days to plot (default: 10)
-- `num_points`: Number of data points (default: 50)
+**Output:** Saves as 'option_values_plot.png'
 
-**Output:** Saves plot as 'option_values_plot.png'
+---
+
+### FuturesOptionsCalculator (Black76)
+
+For pricing futures and forward contract options.
+
+#### Constructor
+
+```python
+from marketrisk import FuturesOptionsCalculator
+
+FuturesOptionsCalculator(
+    futures_price: float,
+    strike_price: float,
+    expiry_date: str,
+    risk_free_rate: float = 0.045,
+    volatility: float = 0.25,
+    option_type: str = 'call'
+)
+```
+
+**Parameters:**
+- `futures_price`: Current futures contract price
+- `strike_price`: Strike price of the option
+- `expiry_date`: Expiration date in 'YYYY-MM-DD' format
+- `risk_free_rate`: Annual risk-free rate (default: 0.045 = 4.5%)
+- `volatility`: Implied volatility (default: 0.25 = 25%)
+- `option_type`: 'call' or 'put' (default: 'call')
+
+**Note:** Black76 does NOT use dividend yield (already embedded in futures price)
+
+#### Methods
+
+##### calculate_greeks(futures_price=None, time_to_expiry=None)
+
+Calculate option price and Greeks using Black76 model.
+
+**Returns:** Dictionary with:
+- `Futures Price`: Current futures price
+- `Strike`: Strike price
+- `T_Years`: Time to expiry in years
+- `Price`: Option price
+- `Delta`: Delta value
+- `Gamma`: Gamma value
+- `Vega (1%)`: Vega for 1% volatility change
+- `Theta`: Theta value (daily time decay)
+- `Model`: 'Black76' identifier
+
+##### display_greeks()
+
+Print formatted Greeks to console.
+
+##### plot_option_values(days=10, num_points=50)
+
+Generate and save a plot of option values over time.
+
+**Output:** Saves as 'futures_option_values_plot.png'
+
+---
+
+## Backward Compatibility
+
+The old class name `OptionsGreeksCalculator` is still available as an alias:
+
+```python
+# Old import (still works)
+from marketrisk import OptionsGreeksCalculator
+
+# New explicit import (recommended)
+from marketrisk import EquityOptionsCalculator
+```
+
+Both work identically - use whichever you prefer.
 
 ## Testing
 
@@ -199,9 +301,9 @@ MarketRisk/
 
 ### Production
 - **numpy** - Numerical computing
-- **yfinance** - Yahoo Finance data fetching
-- **matplotlib** - Plotting and visualization
 - **scipy** - Scientific computing (normal distribution)
+- **yfinance** - Yahoo Finance data (for equity options only)
+- **matplotlib** - Plotting and visualization
 - **pandas** - Data manipulation
 
 ### Development
@@ -210,27 +312,40 @@ MarketRisk/
 - **black** - Code formatting
 - **flake8** - Linting
 - **mypy** - Type checking
+- **sphinx** - Documentation generation
+
+## Models Comparison
+
+| Feature | Black-Scholes (Equity) | Black76 (Futures) |
+|---------|---|---|
+| **Use For** | Stocks, equities | Futures, forwards |
+| **Input** | Ticker symbol | Futures price |
+| **Real-Time Data** | Yes (Yahoo Finance) | No (direct input) |
+| **Dividend Yield** | ✓ Supported | ✗ Not used |
+| **Cost of Carry** | Manual (dividend) | Built-in |
+| **Class** | EquityOptionsCalculator | FuturesOptionsCalculator |
+| **Asset Classes** | Stocks | Commodities, FX, Bonds, Indices |
 
 ## Troubleshooting
 
-### Issue: "yfinance connection error"
-**Solution**: Check your internet connection and verify Yahoo Finance is accessible.
+### Issue: "ModuleNotFoundError: No module named 'marketrisk'"
+**Solution**: Install the package in development mode:
+```bash
+pip install -e .
+```
+
+### Issue: "yfinance connection error" (Equity options only)
+**Solution**: Check internet connection and verify Yahoo Finance is accessible.
 
 ### Issue: "ValueError: Could not fetch data for TICKER"
 **Solution**: Verify the ticker symbol is valid (e.g., AAPL, MSFT, GOOGL).
 
-### Issue: Import errors
-**Solution**: Ensure virtual environment is activated and dependencies are installed:
-```bash
-pip list
-pip install -r requirements.txt --upgrade
-```
-
 ### Issue: Tests failing
-**Solution**: Ensure all dependencies are installed:
+**Solution**: Install all dependencies and run tests:
 ```bash
 pip install -r requirements.txt
-python -m pytest tests/ -v
+pip install -r requirements-dev.txt
+python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
 ## Development
@@ -247,7 +362,8 @@ venv\Scripts\activate
 # On macOS/Linux:
 source venv/bin/activate
 
-# Install dev dependencies
+# Install all dependencies (production + dev)
+pip install -r requirements.txt
 pip install -r requirements-dev.txt
 
 # Install package in development mode
@@ -257,41 +373,66 @@ pip install -e .
 ### Code quality checks
 
 ```bash
-# Format code
+# Format code with Black
 black src/ tests/
 
-# Check linting
+# Check code style with Flake8
 flake8 src/ tests/
 
-# Type checking
+# Type checking with mypy
 mypy src/
 
-# Run tests with coverage
+# Run tests
+python -m unittest discover -s tests -p "test_*.py" -v
+
+# Run tests with coverage report
 pytest tests/ --cov=src/marketrisk --cov-report=html
 ```
 
-## Mathematical Background
+## Mathematical Models
 
-### Black-Scholes Model
+### Black-Scholes Model (Equity Options)
 
-The calculator uses the Black-Scholes-Merton model for option pricing:
+For pricing European options on dividend-paying stocks:
 
-**Call Price**: C = S₀N(d₁) - Ke^(-rT)N(d₂)
-
-**Put Price**: P = Ke^(-rT)N(-d₂) - S₀N(-d₁)
+**Call Price**: C = S*e^(-q*T)*N(d₁) - K*e^(-r*T)*N(d₂)
+**Put Price**: P = K*e^(-r*T)*N(-d₂) - S*e^(-q*T)*N(-d₁)
 
 Where:
-- d₁ = [ln(S/K) + (r + σ²/2)T] / (σ√T)
-- d₂ = d₁ - σ√T
+- S = Spot price
+- K = Strike price
+- r = Risk-free rate
+- q = Dividend yield
+- T = Time to expiry
+- σ = Volatility
+- d₁ = [ln(S/K) + (r - q + σ²/2)*T] / (σ*√T)
+- d₂ = d₁ - σ*√T
+- N(x) = Cumulative normal distribution
+
+### Black76 Model (Futures Options)
+
+For pricing options on futures and forward contracts:
+
+**Call Price**: C = e^(-r*T) * [F*N(d₁) - K*N(d₂)]
+**Put Price**: P = e^(-r*T) * [K*N(-d₂) - F*N(-d₁)]
+
+Where:
+- F = Futures price
+- K = Strike price
+- r = Risk-free rate
+- T = Time to expiry
+- σ = Volatility
+- d₁ = [ln(F/K) + (σ²/2)*T] / (σ*√T)
+- d₂ = d₁ - σ*√T
 - N(x) = Cumulative normal distribution
 
 ### Greeks Definitions
 
-- **Delta**: Rate of change of option price with respect to spot price
-- **Gamma**: Rate of change of delta with respect to spot price
-- **Vega**: Sensitivity to volatility changes (per 1% change)
-- **Theta**: Time decay (daily rate)
-- **Rho**: Sensitivity to interest rate changes
+- **Delta (Δ)**: Sensitivity of option price to spot/futures price changes (-1 to 1)
+- **Gamma (Γ)**: Rate of change of delta (curvature of price curve)
+- **Vega (ν)**: Sensitivity to volatility changes (per 1% volatility change)
+- **Theta (Θ)**: Time decay (daily rate, typically negative for long options)
+- **Rho (ρ)**: Sensitivity to interest rate changes
 
 ## License
 

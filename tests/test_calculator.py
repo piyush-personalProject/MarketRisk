@@ -1,4 +1,4 @@
-"""Unit tests for OptionsGreeksCalculator."""
+"""Unit tests for EquityOptionsCalculator."""
 
 import unittest
 from unittest.mock import patch, MagicMock
@@ -11,7 +11,7 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
-from marketrisk.calculator import OptionsGreeksCalculator
+from marketrisk.calculator import EquityOptionsCalculator
 
 
 def create_mock_ticker(spot_price=150.0):
@@ -22,8 +22,8 @@ def create_mock_ticker(spot_price=150.0):
     return mock_ticker
 
 
-class TestOptionsGreeksCalculator(unittest.TestCase):
-    """Test cases for OptionsGreeksCalculator class."""
+class TestEquityOptionsCalculator(unittest.TestCase):
+    """Test cases for EquityOptionsCalculator class."""
 
     def setUp(self):
         """Set up test fixtures."""
@@ -38,7 +38,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         """Test successful initialization with valid parameters."""
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=self.expiry,
@@ -62,7 +62,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = mock_ticker
 
         with self.assertRaises(ValueError):
-            OptionsGreeksCalculator(
+            EquityOptionsCalculator(
                 ticker_symbol='INVALID',
                 strike_price=150,
                 expiry_date=self.expiry
@@ -73,7 +73,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         """Test that option type is normalized to lowercase."""
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=self.expiry,
@@ -88,7 +88,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date
@@ -104,7 +104,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         past_date = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=past_date
@@ -119,7 +119,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -146,7 +146,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -168,7 +168,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         past_date = (datetime.now(timezone.utc) - timedelta(days=1)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=past_date,
@@ -187,7 +187,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(160.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -208,7 +208,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(140.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -227,7 +227,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -243,7 +243,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -260,7 +260,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
 
-        calc_low_vol = OptionsGreeksCalculator(
+        calc_low_vol = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -268,7 +268,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
             option_type='call'
         )
 
-        calc_high_vol = OptionsGreeksCalculator(
+        calc_high_vol = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -289,7 +289,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -309,7 +309,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date
@@ -324,7 +324,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         """Test initialization with dividend yield parameter."""
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='IBM',
             strike_price=150,
             expiry_date=self.expiry,
@@ -338,7 +338,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         """Test that dividend yield defaults to 0.0."""
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=self.expiry
@@ -352,7 +352,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='IBM',
             strike_price=150,
             expiry_date=future_date,
@@ -376,7 +376,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
 
         # Call without dividend
-        calc_no_div = OptionsGreeksCalculator(
+        calc_no_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -386,7 +386,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         )
 
         # Call with dividend
-        calc_with_div = OptionsGreeksCalculator(
+        calc_with_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -409,7 +409,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
 
         # Put without dividend
-        calc_no_div = OptionsGreeksCalculator(
+        calc_no_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -419,7 +419,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         )
 
         # Put with dividend
-        calc_with_div = OptionsGreeksCalculator(
+        calc_with_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -442,7 +442,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
 
         # Call without dividend
-        calc_no_div = OptionsGreeksCalculator(
+        calc_no_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -452,7 +452,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         )
 
         # Call with dividend
-        calc_with_div = OptionsGreeksCalculator(
+        calc_with_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -473,7 +473,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -492,7 +492,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='REIT',
             strike_price=150,
             expiry_date=future_date,
@@ -515,7 +515,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
 
         # Without specifying dividend (uses default 0.0)
-        calc1 = OptionsGreeksCalculator(
+        calc1 = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -523,7 +523,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         )
 
         # Explicitly set to 0.0
-        calc2 = OptionsGreeksCalculator(
+        calc2 = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -543,7 +543,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(150.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -564,7 +564,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         mock_ticker_class.return_value = create_mock_ticker(140.0)
 
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
-        calc = OptionsGreeksCalculator(
+        calc = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -587,7 +587,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         # Use longer time and higher dividend to see meaningful differences
         future_date = (datetime.now(timezone.utc) + timedelta(days=180)).strftime("%Y-%m-%d")
 
-        calc_no_div = OptionsGreeksCalculator(
+        calc_no_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -595,7 +595,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
             dividend_yield=0.0
         )
 
-        calc_with_div = OptionsGreeksCalculator(
+        calc_with_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -620,7 +620,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         future_date = (datetime.now(timezone.utc) + timedelta(days=30)).strftime("%Y-%m-%d")
 
         # No dividend
-        calc_no_div = OptionsGreeksCalculator(
+        calc_no_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,
@@ -630,7 +630,7 @@ class TestOptionsGreeksCalculator(unittest.TestCase):
         )
 
         # With 3% dividend
-        calc_with_div = OptionsGreeksCalculator(
+        calc_with_div = EquityOptionsCalculator(
             ticker_symbol='AAPL',
             strike_price=150,
             expiry_date=future_date,

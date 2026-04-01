@@ -4,29 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9d2ebea8-01ca-4e33-82ff-babcc71d76ba" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/MarketRisk.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/INDEX.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PROJECT_STRUCTURE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/QUICKSTART.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/INSTALL.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/USAGE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements-dev.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/marketrisk/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/marketrisk/calculator.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/marketrisk/cli.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/marketrisk/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_calculator.py" afterDir="false" />
+    <list default="true" id="9d2ebea8-01ca-4e33-82ff-babcc71d76ba" name="Changes" comment="Add the support for optional parameters for dividend">
+      <change afterPath="$PROJECT_DIR$/BLACK76_GUIDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CLI_ENHANCEMENT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DIVIDEND_SUPPORT.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/REFACTORING_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TEST_FIX_SUMMARY.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/marketrisk/futures_calculator.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/test_futures_calculator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marketrisk/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/marketrisk/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marketrisk/calculator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/marketrisk/calculator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/marketrisk/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/marketrisk/cli.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_calculator.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_calculator.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,8 +33,26 @@
     <option name="cachedIndexableFilesCount" value="25" />
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Jain" />
+        <option value="Piyush Jain" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "piyush-personalProject"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/piyush-personalProject/MarketRisk.git",
+    "accountId": "5f68f003-1039-4c77-8969-599b8fc7b469"
+  }
+}]]></component>
   <component name="McpProjectServerCommands">
     <commands />
     <urls />
@@ -60,34 +69,61 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python tests.Python tests for OptionsGreeksCalculatorTest.TestOptionsGreeksCalculator.executor&quot;: &quot;Run&quot;,
-    &quot;Python tests.Python tests for tests.test_calculator.TestOptionsGreeksCalculator.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Deepali Jain/PycharmProjects/MarketRisk&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.angularservice&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python tests.Python tests for OptionsGreeksCalculatorTest.TestOptionsGreeksCalculator.executor": "Run",
+    "Python tests.Python tests for tests.test_calculator.TestOptionsGreeksCalculator.executor": "Run",
+    "Python tests.Python tests for tests.test_calculator.TestOptionsGreeksCalculator.test_initialization_with_valid_inputs.executor": "Run",
+    "Python tests.Python tests in test_calculator.py.executor": "Run",
+    "Python.cli.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "ai.playground.ignore.import.keys.banner.in.settings": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/Deepali Jain/PycharmProjects/MarketRisk",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Deepali Jain\PycharmProjects\MarketRisk" />
     </key>
   </component>
-  <component name="RunManager" selected="Python tests.Python tests for tests.test_calculator.TestOptionsGreeksCalculator">
+  <component name="RunManager" selected="Python.cli">
+    <configuration name="cli" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MarketRisk" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/marketrisk" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/marketrisk/cli.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for OptionsGreeksCalculatorTest.TestOptionsGreeksCalculator" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="MarketRisk" />
       <option name="ENV_FILES" value="" />
@@ -122,9 +158,46 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for tests.test_calculator.TestOptionsGreeksCalculator.test_initialization_with_valid_inputs" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="MarketRisk" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;tests.test_calculator.TestOptionsGreeksCalculator.test_initialization_with_valid_inputs&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests in test_calculator.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="MarketRisk" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/tests/test_calculator.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.cli" />
+        <item itemvalue="Python tests.Python tests in test_calculator.py" />
         <item itemvalue="Python tests.Python tests for tests.test_calculator.TestOptionsGreeksCalculator" />
+        <item itemvalue="Python tests.Python tests for tests.test_calculator.TestOptionsGreeksCalculator.test_initialization_with_valid_inputs" />
         <item itemvalue="Python tests.Python tests for OptionsGreeksCalculatorTest.TestOptionsGreeksCalculator" />
       </list>
     </recent_temporary>
@@ -145,15 +218,101 @@
       <option name="presentableId" value="Default" />
       <updated>1774993066387</updated>
       <workItem from="1774993067427" duration="923000" />
-      <workItem from="1774994142757" duration="1041000" />
+      <workItem from="1774994142757" duration="4487000" />
     </task>
+    <task id="LOCAL-00001" summary="initialize MarketRisk package with core functionality and dependencies">
+      <option name="closed" value="true" />
+      <created>1774995782963</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774995782963</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update the structure settings">
+      <option name="closed" value="true" />
+      <created>1774997439017</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1774997439017</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix to use the system path for scripts">
+      <option name="closed" value="true" />
+      <created>1774997685769</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1774997685769</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix th toml file">
+      <option name="closed" value="true" />
+      <created>1774997772549</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1774997772549</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add the support for optional parameters for dividend">
+      <option name="closed" value="true" />
+      <created>1775079968006</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1775079968007</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="c369e3a5-663f-42eb-acee-6faf48158d20" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="c369e3a5-663f-42eb-acee-6faf48158d20">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="HEAD" />
+                      </list>
+                    </value>
+                  </entry>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initialize MarketRisk package with core functionality and dependencies" />
+    <MESSAGE value="update the structure settings" />
+    <MESSAGE value="fix to use the system path for scripts" />
+    <MESSAGE value="fix th toml file" />
+    <MESSAGE value="Add the support for optional parameters for dividend" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add the support for optional parameters for dividend" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MarketRisk$.coverage" NAME=" Coverage Results" MODIFIED="1774994519392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MarketRisk$cli.coverage" NAME="cli Coverage Results" MODIFIED="1775080427172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/marketrisk" />
+    <SUITE FILE_PATH="coverage/MarketRisk$.coverage" NAME=" Coverage Results" MODIFIED="1775079856668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
