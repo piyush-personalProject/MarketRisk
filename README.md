@@ -4,7 +4,7 @@ A professional-grade Python library for calculating options Greeks (Delta, Gamma
 - **Black-Scholes Model** for equity and stock options
 - **Black76 Model** for futures and forward contracts
 
-Features real-time stock data, comprehensive Greeks calculation, and professional visualization.
+Features real-time stock data, comprehensive Greeks calculation, dividend yield support, and professional visualization.
 
 ## Features
 
@@ -13,18 +13,20 @@ Features real-time stock data, comprehensive Greeks calculation, and professiona
 - ✅ **Dividend Support**: Handles continuous dividend yields
 - ✅ **Real-Time Data**: Fetches current stock prices from Yahoo Finance
 - ✅ **All Greeks**: Delta, Gamma, Vega, Theta calculations
+- ✅ **Backward Compatible**: Old imports still work
 
 ### Futures Options (Black76)
 - ✅ **Black76 Pricing**: Industry-standard model for futures
 - ✅ **Multiple Assets**: Commodity, Interest Rate, Currency, Index futures
 - ✅ **Direct Price Input**: No need for real-time data fetch
 - ✅ **All Greeks**: Properly discounted for futures
+- ✅ **No Dividend Handling**: Cost of carry already embedded
 
 ### General Features
 - **Visualization**: Generate professional plots of option values over time
 - **Easy to Use**: Simple API with sensible defaults
 - **Dual CLI**: Menu-driven command-line interface for both models
-- **Well Tested**: 45+ unit tests with comprehensive coverage
+- **Well Tested**: 45 unit tests with comprehensive coverage (29 equity + 16 futures)
 - **Type Hints**: Full type hints for IDE support
 - **Production Ready**: Industry-standard implementations
 
@@ -124,6 +126,59 @@ marketrisk
 # 0. Exit
 ```
 
+## Usage Guide
+
+### Equity Options (Black-Scholes)
+
+```python
+from marketrisk import EquityOptionsCalculator
+
+# Stock option with real-time data
+calc = EquityOptionsCalculator(
+    ticker_symbol='IBM',
+    strike_price=150,
+    expiry_date='2026-06-19',
+    volatility=0.25,
+    dividend_yield=0.02,  # 2% annual dividend
+    option_type='call'
+)
+
+greeks = calc.calculate_greeks()
+print(f"Price: ${greeks['Price']:.4f}")
+print(f"Delta: {greeks['Delta']:.4f}")
+print(f"Dividend Yield: {greeks['Dividend Yield']:.4f}")
+```
+
+### Futures Options (Black76)
+
+```python
+from marketrisk import FuturesOptionsCalculator
+
+# Commodity futures option
+calc = FuturesOptionsCalculator(
+    futures_price=75.50,  # Crude oil futures
+    strike_price=75.0,
+    expiry_date='2026-06-19',
+    volatility=0.35,
+    option_type='call'
+)
+
+greeks = calc.calculate_greeks()
+print(f"Price: ${greeks['Price']:.4f}")
+print(f"Delta: {greeks['Delta']:.4f}")
+print(f"Model: {greeks['Model']}")
+```
+
+### Backward Compatibility
+
+```python
+# Old import still works (alias)
+from marketrisk import OptionsGreeksCalculator
+
+# New explicit imports (recommended)
+from marketrisk import EquityOptionsCalculator, FuturesOptionsCalculator
+```
+
 ## API Reference
 
 ### EquityOptionsCalculator (Black-Scholes)
@@ -170,7 +225,6 @@ Calculate option price and Greeks using Black-Scholes model.
 - `Vega (1%)`: Vega for 1% volatility change
 - `Theta`: Theta value (daily time decay)
 - `Dividend Yield`: Applied dividend yield
-- `Status`: 'Expired' if expired
 
 ##### display_greeks()
 
@@ -242,34 +296,40 @@ Generate and save a plot of option values over time.
 
 ---
 
-## Backward Compatibility
+## Models Comparison
 
-The old class name `OptionsGreeksCalculator` is still available as an alias:
-
-```python
-# Old import (still works)
-from marketrisk import OptionsGreeksCalculator
-
-# New explicit import (recommended)
-from marketrisk import EquityOptionsCalculator
-```
-
-Both work identically - use whichever you prefer.
+| Feature | Black-Scholes (Equity) | Black76 (Futures) |
+|---------|---|---|
+| **Use For** | Stocks, equities | Futures, forwards |
+| **Input** | Ticker symbol | Futures price |
+| **Real-Time Data** | Yes (Yahoo Finance) | No (direct input) |
+| **Dividend Yield** | ✓ Supported | ✗ Not used |
+| **Cost of Carry** | Manual (dividend) | Built-in |
+| **Class** | EquityOptionsCalculator | FuturesOptionsCalculator |
 
 ## Testing
 
-Run the test suite:
+Run the complete test suite:
 
 ```bash
 # Using unittest (built-in)
 python -m unittest discover -s tests -p "test_*.py" -v
 
+# Specific test classes
+python -m unittest tests.test_calculator.TestEquityOptionsCalculator -v
+python -m unittest tests.test_futures_calculator.TestFuturesOptionsCalculator -v
+
 # Using pytest (if installed)
 pytest tests/ -v
 
-# Run with coverage
+# With coverage report
 pytest tests/ --cov=src/marketrisk --cov-report=html
 ```
+
+**Test Coverage:**
+- ✅ 29 Equity Options Tests (Black-Scholes)
+- ✅ 16 Futures Options Tests (Black76)
+- ✅ **Total: 45 tests - ALL PASSING**
 
 ## Project Structure
 
@@ -277,24 +337,20 @@ pytest tests/ --cov=src/marketrisk --cov-report=html
 MarketRisk/
 ├── src/
 │   └── marketrisk/
-│       ├── __init__.py
-│       ├── calculator.py          # Main calculator class
-│       ├── cli.py                 # Command-line interface
-│       └── utils.py               # Utility functions
+│       ├── __init__.py                # Package initialization & exports
+│       ├── calculator.py              # EquityOptionsCalculator (Black-Scholes)
+│       ├── futures_calculator.py      # FuturesOptionsCalculator (Black76)
+│       ├── cli.py                     # Command-line interface (dual menu)
+│       └── utils.py                   # Utility functions
 ├── tests/
 │   ├── __init__.py
-│   ├── test_calculator.py         # Calculator unit tests
-│   └── fixtures/                  # Test fixtures and data
+│   ├── test_calculator.py             # Equity options tests (29 tests)
+│   └── test_futures_calculator.py     # Futures options tests (16 tests)
 ├── docs/
-│   ├── INSTALL.md                 # Installation guide
-│   ├── USAGE.md                   # Detailed usage guide
-│   └── API.md                     # API documentation
-├── README.md                       # This file
-├── CHANGELOG.md                    # Version history
-├── setup.py                        # Package configuration
-├── requirements.txt                # Production dependencies
-├── requirements-dev.txt            # Development dependencies
-└── .gitignore                      # Git ignore rules
+│   ├── INSTALL.md                     # Installation instructions
+│   └── USAGE.md                       # Usage guide with examples
+├── [Configuration files]              # setup.py, pyproject.toml, etc.
+└── [Documentation files]              # README, guides, etc.
 ```
 
 ## Dependencies
@@ -313,81 +369,6 @@ MarketRisk/
 - **flake8** - Linting
 - **mypy** - Type checking
 - **sphinx** - Documentation generation
-
-## Models Comparison
-
-| Feature | Black-Scholes (Equity) | Black76 (Futures) |
-|---------|---|---|
-| **Use For** | Stocks, equities | Futures, forwards |
-| **Input** | Ticker symbol | Futures price |
-| **Real-Time Data** | Yes (Yahoo Finance) | No (direct input) |
-| **Dividend Yield** | ✓ Supported | ✗ Not used |
-| **Cost of Carry** | Manual (dividend) | Built-in |
-| **Class** | EquityOptionsCalculator | FuturesOptionsCalculator |
-| **Asset Classes** | Stocks | Commodities, FX, Bonds, Indices |
-
-## Troubleshooting
-
-### Issue: "ModuleNotFoundError: No module named 'marketrisk'"
-**Solution**: Install the package in development mode:
-```bash
-pip install -e .
-```
-
-### Issue: "yfinance connection error" (Equity options only)
-**Solution**: Check internet connection and verify Yahoo Finance is accessible.
-
-### Issue: "ValueError: Could not fetch data for TICKER"
-**Solution**: Verify the ticker symbol is valid (e.g., AAPL, MSFT, GOOGL).
-
-### Issue: Tests failing
-**Solution**: Install all dependencies and run tests:
-```bash
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-python -m unittest discover -s tests -p "test_*.py" -v
-```
-
-## Development
-
-### Setting up development environment
-
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate it
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-
-# Install all dependencies (production + dev)
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-
-# Install package in development mode
-pip install -e .
-```
-
-### Code quality checks
-
-```bash
-# Format code with Black
-black src/ tests/
-
-# Check code style with Flake8
-flake8 src/ tests/
-
-# Type checking with mypy
-mypy src/
-
-# Run tests
-python -m unittest discover -s tests -p "test_*.py" -v
-
-# Run tests with coverage report
-pytest tests/ --cov=src/marketrisk --cov-report=html
-```
 
 ## Mathematical Models
 
@@ -432,7 +413,16 @@ Where:
 - **Gamma (Γ)**: Rate of change of delta (curvature of price curve)
 - **Vega (ν)**: Sensitivity to volatility changes (per 1% volatility change)
 - **Theta (Θ)**: Time decay (daily rate, typically negative for long options)
-- **Rho (ρ)**: Sensitivity to interest rate changes
+
+## Documentation
+
+- **README.md** - This file (overview and API reference)
+- **docs/INSTALL.md** - Detailed installation instructions
+- **docs/USAGE.md** - Comprehensive usage guide with examples
+- **BLACK76_GUIDE.md** - Black76 model detailed documentation
+- **DIVIDEND_SUPPORT.md** - Dividend yield implementation details
+- **CLI_ENHANCEMENT.md** - Command-line interface documentation
+- **PROJECT_STRUCTURE.md** - Complete project structure overview
 
 ## License
 
@@ -453,14 +443,3 @@ For issues or questions:
 1. Check the [Issues](https://github.com/yourusername/marketrisk/issues) page
 2. Review the documentation in `docs/`
 3. Contact the project maintainer
-
-## Changelog
-
-### Version 1.0.0
-- Initial release
-- Black-Scholes option pricing
-- Greeks calculation
-- Real-time data fetching
-- Visualization support
-- Comprehensive test suite
-
