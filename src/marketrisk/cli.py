@@ -29,6 +29,9 @@ def main() -> None:
         risk_free_rate = float(
             input("Enter risk-free rate as decimal (default: 0.045): ") or "0.045"
         )
+        dividend_yield = float(
+            input("Enter dividend yield as decimal (default: 0.0): ") or "0.0"
+        )
         option_type = (
             input("Enter option type 'call' or 'put' (default: call): ").strip().lower()
             or "call"
@@ -40,6 +43,7 @@ def main() -> None:
             expiry_date=expiry,
             risk_free_rate=risk_free_rate,
             volatility=volatility,
+            dividend_yield=dividend_yield,
             option_type=option_type
         )
         

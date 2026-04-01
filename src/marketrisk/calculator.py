@@ -17,7 +17,8 @@ class OptionsGreeksCalculator:
         expiry_date: str,
         risk_free_rate: float = 0.045,
         volatility: float = 0.25,
-        option_type: str = 'call'
+        option_type: str = 'call',
+        dividend_yield: float = 0.0
     ):
         """
         Initialize the options calculator with market and option parameters.
@@ -28,7 +29,8 @@ class OptionsGreeksCalculator:
             expiry_date: Expiry date in format 'YYYY-MM-DD'
             risk_free_rate: Risk-free rate (default 0.045 = 4.5%)
             volatility: Implied volatility (default 0.25 = 25%)
-            option_type: 'call' or 'put'
+            option_type: 'call' or 'put' (default: 'call')
+            dividend_yield: Continuous dividend yield (default 0.0 = no dividends)
 
         Raises:
             ValueError: If ticker data cannot be fetched
@@ -39,6 +41,7 @@ class OptionsGreeksCalculator:
         self.risk_free_rate = risk_free_rate
         self.volatility = volatility
         self.option_type = option_type.lower()
+        self.dividend_yield = dividend_yield
         self.spot_price = None
         self.fetch_spot_price()
 
@@ -76,14 +79,16 @@ class OptionsGreeksCalculator:
     def calculate_greeks(
         self,
         spot_price: float = None,
-        time_to_expiry: float = None
+        time_to_expiry: float = None,
+        dividend_yield: float = None
     ) -> dict:
         """
-        Calculate option price and Greeks using Black-Scholes model.
+        Calculate option price and Greeks using Black-Scholes model with dividend support.
 
         Args:
             spot_price: Current spot price (uses self.spot_price if None)
             time_to_expiry: Time to expiry in years (calculated if None)
+            dividend_yield: Continuous dividend yield (uses self.dividend_yield if None)
 
         Returns:
             Dictionary with option price and Greeks:
@@ -101,6 +106,7 @@ class OptionsGreeksCalculator:
         T = time_to_expiry if time_to_expiry is not None else self.calculate_time_to_expiry()
         r = self.risk_free_rate
         sigma = self.volatility
+        q = dividend_yield if dividend_yield is not None else self.dividend_yield
 
         # Handle expired options
         if T <= 0:
@@ -115,22 +121,32 @@ class OptionsGreeksCalculator:
                 "Status": "Expired"
             }
 
-        # Black-Scholes calculations
-        d1 = (np.log(S / K) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+        # Black-Scholes calculations with dividend yield
+        # d1 = [ln(S/K) + (r - q + 0.5*σ²)*T] / (σ*√T)
+        d1 = (np.log(S / K) + (r - q + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - sigma * np.sqrt(T)
 
         # Calculate price and delta based on option type
+        # With dividend yield: C = S*e^(-q*T)*N(d1) - K*e^(-r*T)*N(d2)
         if self.option_type == 'call':
-            price = S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
-            delta = norm.cdf(d1)
+            price = (S * np.exp(-q * T) * norm.cdf(d1) -
+                    K * np.exp(-r * T) * norm.cdf(d2))
+            delta = np.exp(-q * T) * norm.cdf(d1)
         else:
-            price = K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
-            delta = norm.cdf(d1) - 1
+            # P = K*e^(-r*T)*N(-d2) - S*e^(-q*T)*N(-d1)
+            price = (K * np.exp(-r * T) * norm.cdf(-d2) -
+                    S * np.exp(-q * T) * norm.cdf(-d1))
+            delta = np.exp(-q * T) * (norm.cdf(d1) - 1)
 
         # Calculate Greeks
-        gamma = norm.pdf(d1) / (S * sigma * np.sqrt(T))
-        vega = S * norm.pdf(d1) * np.sqrt(T)
-        theta = -(S * norm.pdf(d1) * sigma) / (2 * np.sqrt(T))
+        gamma = np.exp(-q * T) * norm.pdf(d1) / (S * sigma * np.sqrt(T))
+        vega = S * np.exp(-q * T) * norm.pdf(d1) * np.sqrt(T)
+        theta = (-(S * np.exp(-q * T) * norm.pdf(d1) * sigma) / (2 * np.sqrt(T)) +
+                q * S * np.exp(-q * T) * norm.cdf(d1) -
+                r * K * np.exp(-r * T) * norm.cdf(d2)) if self.option_type == 'call' else (
+                -(S * np.exp(-q * T) * norm.pdf(d1) * sigma) / (2 * np.sqrt(T)) -
+                q * S * np.exp(-q * T) * norm.cdf(-d1) +
+                r * K * np.exp(-r * T) * norm.cdf(-d2))
 
         return {
             "Spot": round(S, 2),
@@ -139,7 +155,8 @@ class OptionsGreeksCalculator:
             "Delta": round(delta, 4),
             "Gamma": round(gamma, 4),
             "Vega (1%)": round(vega / 100, 4),
-            "Theta": round(theta, 4)
+            "Theta": round(theta, 4),
+            "Dividend Yield": round(q, 4)
         }
 
     def plot_option_values(self, days: int = 10, num_points: int = 50) -> None:
